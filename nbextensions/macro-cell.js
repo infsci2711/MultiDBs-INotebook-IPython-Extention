@@ -1,3 +1,4 @@
+#
 define( function () {
 
     // Try to read JSON file specifying cell macros
