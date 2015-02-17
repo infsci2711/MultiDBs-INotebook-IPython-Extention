@@ -22,7 +22,7 @@ define( function () {
         $container.append(tag);
         $container.append(dbselect);
 
-        // Add a button to the toolbar for inserting a macro cell
+        // Add a button to the toolbar for inserting a macro cell 
         IPython.toolbar.add_buttons_group([{
             // The button's label.
             'label': 'database connection',
