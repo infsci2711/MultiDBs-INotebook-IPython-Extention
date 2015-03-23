@@ -1,4 +1,3 @@
-#
 define( function () {
 
     // Try to read JSON file specifying cell macros
@@ -22,7 +21,7 @@ define( function () {
         $container.append(tag);
         $container.append(dbselect);
 
-        // Add a button to the toolbar for inserting a macro cell 
+        // Add a button to the toolbar for inserting a macro cell
         IPython.toolbar.add_buttons_group([{
             // The button's label.
             'label': 'database connection',
@@ -30,7 +29,7 @@ define( function () {
             // The button's icon.
             // See a list of Font-Awesome icons here:
             // http://fortawesome.github.io/Font-Awesome/icons/
-            'icon': 'icon-database',
+            'icon': 'icon-cloud',
 
             // The callback function.
             'callback': function() {
@@ -47,6 +46,39 @@ define( function () {
                 console.log("Executing Command: " + command);
                 var kernel = IPython.notebook.kernel;
                 kernel.execute(command);
+            }
+        }]);
+
+        IPython.toolbar.add_buttons_group([{
+            // The button's label.
+            'label': 'display table',
+
+            // The button's icon.
+            // See a list of Font-Awesome icons here:
+            // http://fortawesome.github.io/Font-Awesome/icons/
+            'icon': 'icon-table',
+
+            // The callback function.
+            'callback': function() {
+                // get the execution that user inputs
+                var command1 = IPython.notebook.get_selected_cell().get_text();
+                console.log("Command1: " + command1);
+
+                // Display table
+                var command2 = "from prettytable import PrettyTable\n\n"
+                command2 += "cur.execute(\"" + command1 + "\")\n";
+                command2 += "col_names = [i[0] for i in cur.description]\n"
+                command2 += "x=PrettyTable(col_names)\n"
+                command2 += "x.padding_width = 1\n"
+                command2 += "for r in cur.fetchall():\n"
+                command2 += "    x.add_row(r)\n"
+                command2 += "print(x)\n"
+                console.log("Executing Command: \n" + command2);
+
+                var cell=IPython.notebook.get_selected_cell();
+                cell.set_text(command2);
+                cell.focus_cell();
+                IPython.notebook.execute_cell();
             }
         }]);
     });
