@@ -42,7 +42,8 @@ define( function () {
                 new_cell.focus_cell();
 
                 // Make database connections
-                var command = "cur = "+selected.attr("value")+".cursor()";
+                var command = "MySQL = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='root', db='notebook')\n"
+                command += "cur = "+selected.attr("value")+".cursor()";
                 console.log("Executing Command: " + command);
                 var kernel = IPython.notebook.kernel;
                 kernel.execute(command);
