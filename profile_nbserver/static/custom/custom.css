@@ -6,3 +6,5 @@ mainly to be overridden in profile/static/custom/custom.css
 This will always be an empty file in IPython
 */
 .icon-database:before{content:"\f1c0"}
+.icon-cloud:before{content:"\f0c2"}
+.icon-table:before{content:"\f0ce"}
