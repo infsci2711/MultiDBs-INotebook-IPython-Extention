@@ -72,13 +72,16 @@ define( function () {
                 command2 += "x.padding_width = 1\n"
                 command2 += "for r in cur.fetchall():\n"
                 command2 += "    x.add_row(r)\n"
-                command2 += "print(x)\n"
+                command2 += "print(x)"
                 console.log("Executing Command: \n" + command2);
 
                 var cell=IPython.notebook.get_selected_cell();
                 cell.set_text(command2);
                 cell.focus_cell();
                 IPython.notebook.execute_cell();
+                
+                cell.set_text(command1);
+                cell.focus_cell();
             }
         }]);
     });
