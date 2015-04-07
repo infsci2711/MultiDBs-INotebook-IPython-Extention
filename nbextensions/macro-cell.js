@@ -1,7 +1,7 @@
 define( function () {
 
     // Try to read JSON file specifying cell macros
-    $.getJSON("/static/custom/database.json", function(data) {
+    $.getJSON("http://54.152.29.103/database.json", function(data) {
         // Cach DOM
         var $container = $("div#maintoolbar-container");
 
