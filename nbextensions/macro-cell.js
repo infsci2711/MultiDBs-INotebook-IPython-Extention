@@ -1,7 +1,7 @@
 define( function () {
 
     // Try to read JSON file specifying cell macros
-    $.getJSON("http://54.152.29.103/database.json", function(data) {
+    $.getJSON("http://54.152.26.131:7654/datasources", function(data) {
         // Cach DOM
         var $container = $("div#maintoolbar-container");
 
@@ -10,11 +10,16 @@ define( function () {
 
         var dbselect = $("<select></select>").attr("id", "dbselect");
 
-        $.each(data['databases'], function(key, cell) {
+        $.each(data, function() {
             var option = $("<option></option>")
-                         .attr("value", cell['name'])
-                         .text(cell['name'])
-                         .attr("info", cell['info'].join('\n'));
+                         .attr("value", this.dbName)
+                         .text(this.title+":"+this.dbName)
+                         .attr("info", this.description)
+                         .attr("ip", this.ipAddress)
+                         .attr("port",this.port)
+                         .attr("username",this.username)
+                         .attr("password",this.password)
+                         .attr("db",this.dbName);
                          dbselect.append(option);
         });
 
@@ -36,14 +41,21 @@ define( function () {
                 // Cach DOM
                 var selected = $("select#dbselect").find(":selected");
 
+                var host = selected.attr("ip");
+                var port = selected.attr("port");
+                var username = selected.attr("username");
+                var password = selected.attr("password");
+                var db = selected.attr("db")
+
                 // Create new cell
                 var new_cell = IPython.notebook.insert_cell_above('code');
-                new_cell.set_text(selected.attr("info"));
+                new_cell.set_text("#connect to "+selected.attr("value")+
+                "\n#execute SQL \n#example: 'show databases'");
                 new_cell.focus_cell();
 
                 // Make database connections
-                var command = "MySQL = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='root', db='notebook')\n"
-                command += "cur = "+selected.attr("value")+".cursor()";
+                var command = "MySQL = pymysql.connect(host='"+host+"', port="+port+", user='"+username+"', passwd='"+password+"', db='"+db+"')\n"
+                command += "cur = MySQL.cursor()";
                 console.log("Executing Command: " + command);
                 var kernel = IPython.notebook.kernel;
                 kernel.execute(command);
@@ -80,7 +92,7 @@ define( function () {
                 cell.set_text(command2);
                 cell.focus_cell();
                 IPython.notebook.execute_cell();
-                
+
                 cell.set_text(command1);
                 cell.focus_cell();
             }
