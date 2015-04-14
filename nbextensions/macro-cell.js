@@ -100,3 +100,26 @@ define( function () {
     });
 
 });
+
+//send sq to MultiDBs-Query-Server
+function send_sql (sql,databasid) {
+    //input sql is like "select * from table"
+    //modify it to "select * from databaseid.table"
+    var newsql = "";
+    var sql = {
+        "query": newsql;
+    }
+
+    $.ajax({
+        type: "PUT",
+        url: "http://54.174.80.167:7654/Query/",
+        contentType: "application/json",
+        success: function(data) {
+            //transfer the data into a python array variable
+            //the detailed structure of data is on https://github.com/infsci2711/MultiDBs-Query-Server/blob/master/restful-api-brief.txt
+        },
+        error: function(){
+            alert("Fail to load the data from MultiDB server");
+        }
+    })
+}
