@@ -161,7 +161,8 @@ require([
 var datasources;
 var count = 0; //variable count
 // Try to read JSON file specifying cell macros
-$.getJSON("http://54.152.26.131:7654/datasources", function(data) {
+//"http://54.152.26.131:7654/datasources"
+$.getJSON("http://colfusion.exp.sis.pitt.edu/metastorerest/datasources", function(data) {
     // Update variable
     datasources = data;
     // Cach DOM
@@ -295,7 +296,7 @@ function send_sql(inputsql, callBack) {
 
     $.ajax({
         type: "PUT",
-        url: "http://54.174.80.167:7654/Query/",
+        url: "http://colfusion.exp.sis.pitt.edu/queryrest/Query/", //"http://54.174.80.167:7654/Query/",
         contentType: "application/json",
         data: JSON.stringify(sql),
         success: function(data) {
